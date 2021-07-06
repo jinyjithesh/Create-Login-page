@@ -1,41 +1,40 @@
 import './Login.css';
 import axios from "axios";
-import React, { useState } from 'react';
-function Login({login,error}){
+import React, { useEffect, useState } from 'react';
+function Login(){
 
 
-    const[details,setDetails]=useState({emailAddres:"",password:""});
+    const[details,setDetails]=useState({emailAddress:"",password:"", remember:"",otpSendAs:""});
     const submitHandler=e=>{
         e.preventDefault();
-       login(details);
-    //    axios.post("https://staging.bfitds.com/api/Auth",{
-    //     emailAddress:details.email,
-    //     password:details.password
-    // })
-    // .then(res=>{
-    //     console.log(res.details)
-       
-    // })
-   
+      console.log(details);
     }
    function savUser(){
-      
-      console.warn({details})
-      let data={details}
-       fetch("https://staging.bfitds.com/api/Auth",{
-           method:'POST',
-           headers:{
-               'accept': 'application/json',
-               'Content-Type':'application/json'
-           },
-           body:JSON.stringify(data)
-        }).then((result)=>{
-            console.warn("result",result);
-            result.json().then((resp)=>{
-                console.warn("resp",resp)
-            })
+  
+        axios.post("https://staging.bfitds.com/api/auth",{
+            emailAddress:details.emailAddress,
+            password:details.password,
+            // remember: details.remember,
+            // otpSendAs: details.otpSendAs
         })
+        .then((res)=>{
+            
+                if( res.status === 200 &&  res.details.success === true){
+                setDetails(res.data.details.emailAddress);
+                console.log(res.details)
+               
+            }
+           else{
+               console.log(res.details)
+           }
 
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
+    
+      
+  
      
    }
         return(
@@ -46,25 +45,23 @@ function Login({login,error}){
                 <label htmlFor="fname">Email</label>
                 <br />
                 <input
-                    className="input"
-      type="email"
-      onChange={(e)=>setDetails({...details,emailAddres:e.target.value})}
-      value={details. emailAddres}
-                
-      id="email"
-                    name="email"
-                    defaultValue="admin"
+                 className="input"
+                 type="email"
+                 onChange={(e)=>setDetails({...details,emailAddress:e.target.value})}
+                 value={details. emailAddress}
+                 id="email"
+                 name="email"
+                 defaultValue="admin"
                 />
                 <br />
                 <label htmlFor="lname">Password</label>
                 <br />
-                {(error !="")?(<div>{error}</div>):""}
+              
                 <input
                     className="input"
                     type="password"
                     onChange={(e)=>setDetails({...details,password:e.target.value})}
                     value={details.password}
-   
                     id="password"
                     name="password"
                     defaultValue="1"
