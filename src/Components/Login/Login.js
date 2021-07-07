@@ -1,16 +1,16 @@
 import './Login.css';
 import axios from "axios";
 import React, { useEffect, useState } from 'react';
-function Login(){
+function Login({login}){
 
 
     const[details,setDetails]=useState({emailAddress:"",password:"", remember:"",otpSendAs:""});
     const submitHandler=e=>{
         e.preventDefault();
       console.log(details);
-    }
-   function savUser(){
-  
+      login(details)
+   
+
         axios.post("https://staging.bfitds.com/api/auth",{
             emailAddress:details.emailAddress,
             password:details.password,
@@ -68,7 +68,7 @@ function Login(){
                 />
                 <br />
                 <br />
-                <button type="submit" onClick={savUser}>Login</button>
+                <button type="submit" value="LOGIN" Login={login}>Login</button>
             </form>
 
         </div>
