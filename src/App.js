@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
 import './App.css';
 import Login from './Components/Login/Login';
-
-
+// import Home from './Page/Home';
+import {Route,BrowserRouter as Router ,Switch} from 'react-router-dom'
+import { AddBranch } from './Components/AddBranch';
+import { EditBranch } from './Components/EditBranch';
+import { Home } from './Components/Home';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button} from 'reactstrap'
 
 function App() {
   const adminUser={
@@ -34,13 +39,26 @@ const Logout =()=>{
     
 
 <div className="App">
- 
+  
 {(user.emailAddress !="")?(
 <div>
-<h2>welcome</h2>
-<button onClick={Logout}>Logout</button>
+<h1>welcome</h1>
+<div >
+
+<Router>
+      <Switch>
+        <Route exact path='/' ><Home/></Route>
+        <Route path='/add' ><AddBranch/></Route>
+        <Route path='/edit/:id'><EditBranch/></Route>
+      </Switch>
+  </Router>
+</div>
+
+<Button onClick={Logout}>Logout</Button>
+
 </div>
 ):( <Login login={login} error={error}/>)}
+   
 
     </div>
   );
