@@ -5,8 +5,7 @@ import { ListGroup, Button, ListGroupItem} from 'reactstrap'
 export const BranchList = () => {
     const[branchdata,setBranchData]=useState([]);
     const[userdata,setUserData]=useState({branchId:"",name:"",address:"",city :"",phone:"",timeZone:"",accessCode:""});
-  
-
+    
     const getBranchData =async() =>{
         try{
             const data= await axios.get("https://staging.bfitds.com/api/Branch" );
@@ -23,31 +22,71 @@ export const BranchList = () => {
     useEffect(() => {
         getBranchData();
     }, []);
-
-    const token = localStorage.getItem("token");
-  console.log(token);
-const removeHandler=(id)=>{
+    
+    
+ 
+    const removeHandler= async(id)=>{
+      
+    
+      await axios.delete("https://staging.bfitds.com/api/Branch/76",
+      {
+          branchId:userdata.branchId,
+          name:userdata.name,
+          address:userdata.address,
+          city:userdata.city,
+          phone:userdata.phone,
+          timeZone:userdata.timeZone,
+          accessCode:userdata.accessCode,
+  
+      },
+       )
+      
+      .then((res)=>{
+          
+              if( res.status === 200 &&  res.deletdata.success === true){
+                  setUserData(res.data.userdata.branchId);
+                 
+              console.log(res.userdata)
+             
+          }
+         else{
+             console.log(res.userdata)
+         }
+  
+          })
+          .catch((err)=>{
+              console.log(err);
+          })
+  
+        }
+      
+           
+        
+ 
+// const removeHandler=(id)=>{
  
     
-    console.log(id)
-    axios.delete("https://staging.bfitds.com/api/Branch/76")
-    .then(res=>{
-        const data = branchdata.filter(p=>p.branchId !==id)
-   
-        if( res.status === 200 &&  res.userdata.success === true){
-            setUserData(res.data.userdata.branchId);
-        console.log(res.userdata)
-       
-    }
-   else{
-       console.log(res.userdata)
-   }
+//     console.log(id)
+//     axios.delete("https://staging.bfitds.com/api/Branch/76")
 
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
-}
+//     .then(res=>{
+//         localStorage.setItem("token");
+//         const data = userdata.filter(p=>p.branchId !==id)
+   
+//         if( res.status === 200 &&  res.userdata.success === true){
+//             setUserData(res.data.userdata.branchId);
+//         console.log(res.userdata)
+       
+//     }
+//    else{
+//        console.log(res.userdata)
+//    }
+
+//     })
+//     .catch((err)=>{
+//         console.log(err);
+//     })
+// }
 
     return (
         <ListGroup className="mt-4">
@@ -77,11 +116,8 @@ const removeHandler=(id)=>{
     <td> {p.city}</td>
     <td> {p.phone}</td>
     <td>{p.timeZone}</td>
-    <td> <Link className="btn btn-warning mr-1  " to={'/edit/:{branchId}}'} >edit</Link></td>
-    <td>  <Button onClick={(e)=>removeHandler(p.branchId)} color="danger" >Delete</Button></td>
-   
-   
-  
+    <td> <Link className="btn btn-warning mr-1  " to={'/edit/:{id}'} >edit</Link></td>
+    <td>  <Button onClick={()=>removeHandler(id)} color="danger" >Delete</Button></td>
     </tr>
    
     </tbody>

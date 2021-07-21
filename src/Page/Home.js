@@ -123,8 +123,8 @@ axios.put("https://staging.bfitds.com/api/Branch/76",
 
  
 }
- 
-   const removeHandler=e=>{
+ useEffect(()=>{
+      const removeHandler=e=>{
     e.preventDefault();
   console.log(userdata);
 
@@ -168,6 +168,8 @@ axios.put("https://staging.bfitds.com/api/Branch/76",
 
  
 }
+ })
+  
          
   return (
     
@@ -187,17 +189,17 @@ axios.put("https://staging.bfitds.com/api/Branch/76",
                <input type="address" value={userdata.address}
                  onChange={(e)=>setUserData({...userdata,address:e.target.value})}t/> <br/>
                <label>city</label>
-               <input   type="text" valu={userdata.phone}
+               <input   type="text" value={userdata.city}
                  onChange={(e)=>setUserData({...userdata,city:e.target.value})}/><br/>
                <label>phone</label>
-               <input    type="text"
+               <input    type="text" value={userdata.phone}
                  onChange={(e)=>setUserData({...userdata,phone:e.target.value})}/><br/>
                 <label>province</label>
-               <input    type="province"
+               <input    type="province" value={userdata.province}
                  onChange={(e)=>setUserData({...userdata,province:e.target.value})}/><br/>
                
                <label>timeZone</label>
-               <input    type="text"
+               <input    type="text" value={userdata.timeZone}
                  onChange={(e)=>setUserData({...userdata,timeZone:e.target.value})}/><br/>
         <button onClick={updateHandler}>update</button>
         <button>submit</button>
