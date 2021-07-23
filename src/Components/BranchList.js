@@ -86,7 +86,7 @@ export const BranchList = () => {
                 {" "}
                 <Link
                   className="btn btn-warning mr-2  "
-                  to={"/edit/:{p.branchId}"}
+                  to={`/edit/${p.branchId}`}
                 >
                   edit
                 </Link>
