@@ -1,7 +1,7 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { ListGroup, Button} from "reactstrap";
+import { ListGroup, Button } from "reactstrap";
 export const BranchList = () => {
   const [branchdata, setBranchData] = useState([]);
   const [userdata, setUserData] = useState({
@@ -28,20 +28,17 @@ export const BranchList = () => {
   useEffect(() => {
     getBranchData();
   }, []);
-
-  const removeHandler = (id) => {
-    axios
+  const load = async () => {
+    const result = await axios.get(
+      "https://staging.bfitds.com/api/Branch/${branchId}"
+    );
+    console.log(result);
+  };
+  const removeHandler = async (branchId) => {
+    await axios
       .delete(
-        "https://staging.bfitds.com/api/Branch/83",
-        {
-          branchId: userdata.branchId,
-          name: userdata.name,
-          address: userdata.address,
-          city: userdata.city,
-          phone: userdata.phone,
-          timeZone: userdata.timeZone,
-          accessCode: userdata.accessCode,
-        },
+        "https://staging.bfitds.com/api/Branch/${branchId}",
+       
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -52,10 +49,11 @@ export const BranchList = () => {
       .then((res) => {
         if (res.data.statusText === "OK") {
           setUserData(res.data.userdata.branchId);
+          console.log("no",res.data)
           setUserData((userData) =>
-            userData.filter((item, index) => index !== id)
+            userData.filter((item, index) => index !== branchId)
           );
-
+       
           console.log(res.userdata);
         } else {
           console.log(res.userdata);
@@ -63,6 +61,7 @@ export const BranchList = () => {
       })
       .catch((err) => {
         console.log(err);
+      
       });
   };
 
@@ -80,9 +79,9 @@ export const BranchList = () => {
           </tr>
         </thead>
 
-        {branchdata.map((p, id) => (
+        {branchdata.map((p, branchId) => (
           <tbody>
-            <tr key={id}>
+            <tr key={branchId}>
               <td>{p.branchId}</td>
               <td>{p.name}</td>
               <td> {p.address}</td>
@@ -91,13 +90,19 @@ export const BranchList = () => {
               <td>{p.timeZone}</td>
               <td>
                 {" "}
-                <Link className="btn btn-warning mr-1  " to={"/edit/:{id}"}>
+                <Link
+                  className="btn btn-warning mr-2  "
+                  to={"/edit/:{p.branchId}"}
+                >
                   edit
                 </Link>
               </td>
               <td>
                 {" "}
-                <Button onClick={(e) => removeHandler(e, id)} color="danger">
+                <Button
+                  onClick={() => removeHandler(p.branchId)}
+                  color="danger"
+                >
                   Delete
                 </Button>
               </td>
@@ -111,4 +116,3 @@ export const BranchList = () => {
 export const getToken = () => {
   return localStorage.getItem("token") || null;
 };
-
