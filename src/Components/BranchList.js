@@ -28,17 +28,12 @@ export const BranchList = () => {
   useEffect(() => {
     getBranchData();
   }, []);
-  const load = async () => {
-    const result = await axios.get(
-      "https://staging.bfitds.com/api/Branch/${branchId}"
-    );
-    console.log(result);
-  };
+  
   const removeHandler = async (branchId) => {
     await axios
       .delete(
-        "https://staging.bfitds.com/api/Branch/${branchId}",
-       
+        `https://staging.bfitds.com/api/Branch/${branchId}`,
+
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -48,12 +43,12 @@ export const BranchList = () => {
 
       .then((res) => {
         if (res.data.statusText === "OK") {
-          setUserData(res.data.userdata.branchId);
-          console.log("no",res.data)
+          setUserData(res.data);
+         
           setUserData((userData) =>
             userData.filter((item, index) => index !== branchId)
           );
-       
+
           console.log(res.userdata);
         } else {
           console.log(res.userdata);
@@ -61,7 +56,6 @@ export const BranchList = () => {
       })
       .catch((err) => {
         console.log(err);
-      
       });
   };
 

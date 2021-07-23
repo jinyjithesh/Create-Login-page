@@ -18,7 +18,7 @@ export const EditBranch = () => {
 
     axios
       .put(
-        "https://staging.bfitds.com/api/Branch/83",
+        "https://staging.bfitds.com/api/Branch/${branchId}",
         {
           branchId: userdata.branchId,
           name: userdata.name,
@@ -145,12 +145,10 @@ export const EditBranch = () => {
               className="custom-select"
             >
               <option selected>Africa/Abidjan</option>
-              <option value="2">Africa/Accra</option>
-              <option value="3">Africa/Addis-Ababa</option>
-              <option value="4">Africa/Algier</option>
-              <option value="5">Africa/Asmara</option>
-              <option value="6">Africa/</option>
-              <option value="7">Africa/</option>
+              <option value="Australia/Hobart">Australia/Hobart</option>
+              <option value="Africa/Addis-Ababa">Africa/Addis-Ababa</option>
+              <option value="Africa/Algier">Africa/Algier</option>
+              <option value="Africa/Asmara">Africa/Asmara</option>
             </select>
           </div>
         </div>
