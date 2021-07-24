@@ -28,7 +28,7 @@ export const BranchList = () => {
   useEffect(() => {
     getBranchData();
   }, []);
-  
+
   const removeHandler = async (branchId) => {
     await axios
       .delete(
@@ -44,7 +44,7 @@ export const BranchList = () => {
       .then((res) => {
         if (res.data.statusText === "OK") {
           setUserData(res.data);
-         
+
           setUserData((userData) =>
             userData.filter((item, index) => index !== branchId)
           );
@@ -84,10 +84,7 @@ export const BranchList = () => {
               <td>{p.timeZone}</td>
               <td>
                 {" "}
-                <Link
-                  className="btn btn-warning mr-2  "
-                  to={`/edit/${p.branchId}`}
-                >
+                <Link className="btn btn-warning mr-2" to={`/edit/${p.branchId}`}>
                   edit
                 </Link>
               </td>
