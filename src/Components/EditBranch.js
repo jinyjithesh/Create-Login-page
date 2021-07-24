@@ -12,13 +12,14 @@ export const EditBranch = () => {
     accessCode: "",
   });
   const token = getToken();
-  const updateHandler = (e) => {
+
+  const updateHandler = async (e, branchId) => {
     e.preventDefault();
     console.log(userdata);
 
-    axios
+    await axios
       .put(
-        "https://staging.bfitds.com/api/Branch/${branchId}",
+        `https://staging.bfitds.com/api/Branch/${userdata.branchId}`,
         {
           branchId: userdata.branchId,
           name: userdata.name,
@@ -37,10 +38,8 @@ export const EditBranch = () => {
 
       .then((res) => {
         if (res.data.statusText === "OK") {
-          setUserData(res.data.userdata.branchId);
-
+          setUserData(res.data.branchId);
           console.log(res.userdata);
-          console.log(res.data.token);
         } else {
           console.log(res.data);
         }
@@ -120,6 +119,19 @@ export const EditBranch = () => {
           </div>
         </div>
         <div className="form-group row">
+          <label className="col-sm-2 col-form-label">accessCode</label>
+          <div class="col-sm-10">
+            <input
+              type="province"
+              value={userdata.accessCode}
+              onChange={(e) =>
+                setUserData({ ...userdata, accessCode: e.target.value })
+              }
+            />
+            <br />
+          </div>
+        </div>
+        <div className="form-group row">
           <label className="col-sm-2 col-form-label">province</label>
           <div class="col-sm-10">
             <input
@@ -144,7 +156,7 @@ export const EditBranch = () => {
               }
               className="custom-select"
             >
-              <option selected>Africa/Abidjan</option>
+              <option selected>Asia/Kolkata</option>
               <option value="Australia/Hobart">Australia/Hobart</option>
               <option value="Africa/Addis-Ababa">Africa/Addis-Ababa</option>
               <option value="Africa/Algier">Africa/Algier</option>
